@@ -135,9 +135,13 @@ main {
     background-color: var(--bg-primary);
 }
 
-.location-info {
+.location-info, .network-info {
     text-align: center;
     color: var(--text-secondary);
+}
+
+.network-info {
+    font-family: monospace;
 }
 
 .timestamp {

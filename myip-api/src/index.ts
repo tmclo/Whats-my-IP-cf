@@ -2,6 +2,8 @@ interface IpResponse {
   ip: string;
   country?: string;
   city?: string;
+  asn?: string;
+  asOrganization?: string;
   timestamp: string;
 }
 
@@ -12,6 +14,8 @@ interface CfProperties {
   latitude?: string;
   longitude?: string;
   timezone?: string;
+  asn?: number;
+  asOrganization?: string;
 }
 
 export default {
@@ -35,11 +39,15 @@ export default {
     const country = request.headers.get('cf-ipcountry') || undefined;
     const cf = (request as Request & { cf?: CfProperties }).cf;
     const city = cf?.city;
+    const asn = cf?.asn ? `AS${cf.asn}` : undefined;
+    const asOrganization = cf?.asOrganization;
 
     const response: IpResponse = {
       ip: clientIp,
       country,
       city,
+      asn,
+      asOrganization,
       timestamp: new Date().toISOString(),
     };
 

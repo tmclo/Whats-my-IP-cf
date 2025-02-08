@@ -6,6 +6,7 @@ const THEME_KEY = 'preferred-theme';
 const themeToggle = document.getElementById('theme-toggle');
 const ipAddress = document.getElementById('ip-address');
 const locationDisplay = document.getElementById('location');
+const asnDisplay = document.getElementById('asn');
 const timestamp = document.getElementById('time');
 const copyButton = document.getElementById('copy-ip');
 const refreshButton = document.getElementById('refresh');
@@ -33,6 +34,7 @@ async function fetchIpData() {
     try {
         ipAddress.textContent = 'Loading...';
         locationDisplay.textContent = 'Detecting location...';
+        asnDisplay.textContent = 'Loading network info...';
         timestamp.textContent = '-';
 
         const response = await fetch(API_URL);
@@ -51,6 +53,14 @@ async function fetchIpData() {
             ? locationParts.join(', ')
             : 'Location unknown';
 
+        // Update ASN
+        const asnParts = [];
+        if (data.asn) asnParts.push(data.asn);
+        if (data.asOrganization) asnParts.push(data.asOrganization);
+        asnDisplay.textContent = asnParts.length > 0
+            ? asnParts.join(' - ')
+            : 'Network info unavailable';
+
         // Update timestamp
         const time = new Date(data.timestamp);
         timestamp.textContent = `Last updated: ${time.toLocaleString()}`;
@@ -58,6 +68,7 @@ async function fetchIpData() {
         console.error('Error fetching IP:', error);
         ipAddress.textContent = 'Error';
         locationDisplay.textContent = 'Failed to load location';
+        asnDisplay.textContent = 'Failed to load network info';
         timestamp.textContent = 'Please try again';
     }
 }
