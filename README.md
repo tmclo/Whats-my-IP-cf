@@ -1,4 +1,4 @@
-# What's My IP - Cloudflare Edition
+# What's My IP
 
 A modern, clean "What's My IP" application built with Cloudflare Pages and Workers. Features dark mode support, location detection, and a responsive design.
 
