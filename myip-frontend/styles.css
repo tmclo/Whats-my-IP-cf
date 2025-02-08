@@ -10,13 +10,13 @@
 }
 
 [data-theme="dark"] {
-    --bg-primary: #1a1a1a;
-    --bg-secondary: #2d2d2d;
+    --bg-primary: #111111;
+    --bg-secondary: #1f1f1f;
     --text-primary: #ffffff;
     --text-secondary: #9ca3af;
     --accent: #60a5fa;
     --link: #93c5fd;
-    --border: #404040;
+    --border: #2d2d2d;
     --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
 }
 
