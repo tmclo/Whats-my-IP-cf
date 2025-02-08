@@ -1,5 +1,23 @@
 {
   "version": 1,
-  "include": ["/*"],
-  "exclude": []
+  "include": [
+    "/*"
+  ],
+  "exclude": [
+    "/assets/*"
+  ],
+  "routes": [
+    {
+      "src": "^/result/.*$",
+      "dest": "/index.html"
+    },
+    {
+      "src": "^/styles\\.css$",
+      "dest": "/styles.css"
+    },
+    {
+      "src": "^/script\\.js$",
+      "dest": "/script.js"
+    }
+  ]
 }
