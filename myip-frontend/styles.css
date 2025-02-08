@@ -155,6 +155,51 @@ main {
     color: var(--text-secondary);
 }
 
+.share-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    background-color: var(--bg-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+}
+
+.share-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-family: monospace;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+}
+
+.share-link:hover {
+    text-decoration: underline;
+}
+
+.copy-share {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.copy-share:hover {
+    color: var(--accent);
+    background-color: var(--bg-primary);
+}
+
 .refresh-button {
     display: flex;
     align-items: center;
@@ -202,5 +247,14 @@ main {
 
     .network-info {
         font-size: 1rem;
+    }
+
+    .share-link {
+        max-width: 200px;
+        font-size: 0.8rem;
+    }
+
+    .share-container {
+        padding: 0.375rem 0.75rem;
     }
 }
