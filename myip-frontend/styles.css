@@ -167,6 +167,15 @@ main {
     border: 1px solid var(--border);
     display: none;
     word-break: break-all;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    max-width: 100%;
+}
+
+.share-link:hover {
+    background-color: var(--accent);
+    color: white;
+    border-color: var(--accent);
 }
 
 .refresh-button {

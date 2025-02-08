@@ -68,6 +68,7 @@ function updateUI(data) {
     // Update share link
     if (data.id) {
         const shareUrl = `${SHARE_DOMAIN}/result/${data.id}`;
+        shareLinkDisplay.href = shareUrl;
         shareLinkDisplay.textContent = shareUrl;
         shareLinkDisplay.style.display = 'block';
     } else {
@@ -113,8 +114,9 @@ async function fetchResult(id) {
         const data = await response.json();
         updateUI(data);
         
-        // Hide refresh button for shared results
+        // Hide refresh button and share link for shared results
         refreshButton.style.display = 'none';
+        shareLinkDisplay.style.display = 'none';
     } catch (error) {
         console.error('Error fetching result:', error);
         ipAddress.textContent = 'Error';
