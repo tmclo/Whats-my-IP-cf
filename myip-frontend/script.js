@@ -1,5 +1,6 @@
 // Configuration
 const API_URL = 'https://myip-api.aa2.workers.dev';
+const SHARE_DOMAIN = 'https://myip.pinguin.uk';
 const THEME_KEY = 'preferred-theme';
 
 // Country code to flag emoji conversion
@@ -66,7 +67,7 @@ function updateUI(data) {
 
     // Update share link
     if (data.id) {
-        const shareUrl = `${window.location.origin}/result/${data.id}`;
+        const shareUrl = `${SHARE_DOMAIN}/result/${data.id}`;
         shareLinkDisplay.textContent = shareUrl;
         shareLinkDisplay.style.display = 'block';
     } else {
