@@ -4,6 +4,7 @@
     --text-primary: #1a1a1a;
     --text-secondary: #6c757d;
     --accent: #3b82f6;
+    --link: #60a5fa;
     --border: #e5e7eb;
     --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
@@ -14,6 +15,7 @@
     --text-primary: #ffffff;
     --text-secondary: #9ca3af;
     --accent: #60a5fa;
+    --link: #93c5fd;
     --border: #404040;
     --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
 }
@@ -157,50 +159,16 @@ main {
     margin-bottom: 0.5rem;
 }
 
-.share-container {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    background-color: var(--bg-secondary);
-    padding: 0.75rem 1.25rem;
-    border-radius: 0.75rem;
-    border: 1px solid var(--border);
-    box-shadow: var(--card-shadow);
-    width: fit-content;
-    max-width: 100%;
-}
-
 .share-link {
     font-family: monospace;
-    font-size: 1.1rem;
-    color: var(--accent);
+    font-size: 1rem;
+    color: var(--link);
     text-decoration: none;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    margin-top: 0.5rem;
 }
 
 .share-link:hover {
     text-decoration: underline;
-}
-
-.copy-share {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.copy-share:hover {
-    color: var(--accent);
-    background-color: var(--bg-primary);
 }
 
 .refresh-button {
@@ -250,10 +218,6 @@ main {
 
     .network-info {
         font-size: 1rem;
-    }
-
-    .share-container {
-        padding: 0.5rem 1rem;
     }
 
     .share-link {
