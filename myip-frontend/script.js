@@ -1,5 +1,6 @@
 // Configuration
 const API_URL = 'https://myip-api.aa2.workers.dev';
+const SHARE_DOMAIN = 'https://myip.pinguin.uk';
 const THEME_KEY = 'preferred-theme';
 
 // Country code to flag emoji conversion
@@ -21,6 +22,7 @@ const copyButton = document.getElementById('copy-ip');
 const refreshButton = document.getElementById('refresh');
 const shareLink = document.getElementById('share-link');
 const copyShareButton = document.getElementById('copy-share');
+const shareContainer = document.querySelector('.share-container');
 
 // Theme Management
 function initializeTheme() {
@@ -41,7 +43,7 @@ function toggleTheme() {
 }
 
 // Data Display
-function updateUI(data) {
+function updateUI(data, isResultPage = false) {
     // Update IP
     ipAddress.textContent = data.ip;
     
@@ -66,15 +68,13 @@ function updateUI(data) {
     timestamp.textContent = `Last updated: ${time.toLocaleString()}`;
 
     // Update share link
-    if (data.id) {
-        const shareUrl = `${window.location.origin}/result/${data.id}`;
+    if (data.id && !isResultPage) {
+        const shareUrl = `${SHARE_DOMAIN}/result/${data.id}`;
         shareLink.href = shareUrl;
         shareLink.textContent = shareUrl;
-        shareLink.style.display = 'block';
-        copyShareButton.style.display = 'block';
+        shareContainer.style.display = 'flex';
     } else {
-        shareLink.style.display = 'none';
-        copyShareButton.style.display = 'none';
+        shareContainer.style.display = 'none';
     }
 }
 
@@ -85,9 +85,7 @@ async function fetchIpData() {
         locationDisplay.textContent = 'Detecting location...';
         asnDisplay.textContent = 'Loading network info...';
         timestamp.textContent = '-';
-        shareLink.textContent = 'Loading share link...';
-        shareLink.style.display = 'none';
-        copyShareButton.style.display = 'none';
+        shareContainer.style.display = 'none';
 
         const response = await fetch(API_URL);
         if (!response.ok) throw new Error('Failed to fetch IP data');
@@ -100,8 +98,7 @@ async function fetchIpData() {
         locationDisplay.textContent = 'Failed to load location';
         asnDisplay.textContent = 'Failed to load network info';
         timestamp.textContent = 'Please try again';
-        shareLink.style.display = 'none';
-        copyShareButton.style.display = 'none';
+        shareContainer.style.display = 'none';
     }
 }
 
@@ -117,20 +114,17 @@ async function fetchResult(id) {
         }
 
         const data = await response.json();
-        updateUI(data);
+        updateUI(data, true);
         
         // Hide refresh button for shared results
         refreshButton.style.display = 'none';
-        shareLink.style.display = 'none';
-        copyShareButton.style.display = 'none';
     } catch (error) {
         console.error('Error fetching result:', error);
         ipAddress.textContent = 'Error';
         locationDisplay.textContent = error.message;
         asnDisplay.textContent = 'Failed to load network info';
         timestamp.textContent = '-';
-        shareLink.style.display = 'none';
-        copyShareButton.style.display = 'none';
+        shareContainer.style.display = 'none';
     }
 }
 
@@ -154,7 +148,7 @@ async function copyIpToClipboard() {
 
 async function copyShareLinkToClipboard() {
     const url = shareLink.href;
-    if (!url || shareLink.style.display === 'none') return;
+    if (!url || shareContainer.style.display === 'none') return;
 
     try {
         await navigator.clipboard.writeText(url);
