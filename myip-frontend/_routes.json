@@ -10,6 +10,22 @@
       "dest": "/index.html"
     },
     {
+      "src": "^/result/styles\\.css$",
+      "dest": "/styles.css",
+      "headers": {
+        "Content-Type": "text/css",
+        "Cache-Control": "public, max-age=31536000"
+      }
+    },
+    {
+      "src": "^/result/script\\.js$",
+      "dest": "/script.js",
+      "headers": {
+        "Content-Type": "application/javascript",
+        "Cache-Control": "public, max-age=31536000"
+      }
+    },
+    {
       "src": "^/styles\\.css$",
       "dest": "/styles.css",
       "headers": {
