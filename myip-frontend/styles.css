@@ -52,6 +52,15 @@ header {
     width: 100%;
 }
 
+.title-link {
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.title-link:hover {
+    color: var(--accent);
+}
+
 h1 {
     font-size: 1.875rem;
     font-weight: 600;
