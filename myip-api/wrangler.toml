@@ -1,0 +1,23 @@
+name = "myip-api"
+main = "src/index.ts"
+compatibility_date = "2025-02-04"
+
+[observability]
+enabled = true
+
+# Smart Placement
+# placement = { mode = "smart" }
+
+# Environment Variables
+# [vars]
+# MY_VARIABLE = "production_value"
+
+# Static Assets
+# [assets]
+# directory = "./public/"
+# binding = "ASSETS"
+
+# Service Bindings
+# [[services]]
+# binding = "MY_SERVICE"
+# service = "my-service"
