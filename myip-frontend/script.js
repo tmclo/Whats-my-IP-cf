@@ -19,7 +19,7 @@ const asnDisplay = document.getElementById('asn');
 const timestamp = document.getElementById('time');
 const copyButton = document.getElementById('copy-ip');
 const refreshButton = document.getElementById('refresh');
-const shareButton = document.getElementById('share');
+const shareLinkDisplay = document.getElementById('share-link');
 
 // Theme Management
 function initializeTheme() {
@@ -63,6 +63,15 @@ function updateUI(data) {
     // Update timestamp
     const time = new Date(data.timestamp);
     timestamp.textContent = `Last updated: ${time.toLocaleString()}`;
+
+    // Update share link
+    if (data.id) {
+        const shareUrl = `${window.location.origin}/result/${data.id}`;
+        shareLinkDisplay.textContent = shareUrl;
+        shareLinkDisplay.style.display = 'block';
+    } else {
+        shareLinkDisplay.style.display = 'none';
+    }
 }
 
 // IP Data Management
@@ -72,25 +81,20 @@ async function fetchIpData() {
         locationDisplay.textContent = 'Detecting location...';
         asnDisplay.textContent = 'Loading network info...';
         timestamp.textContent = '-';
+        shareLinkDisplay.style.display = 'none';
 
         const response = await fetch(API_URL);
         if (!response.ok) throw new Error('Failed to fetch IP data');
 
         const data = await response.json();
         updateUI(data);
-        
-        // Enable share button if we have an ID
-        if (data.id) {
-            shareButton.disabled = false;
-            shareButton.setAttribute('data-id', data.id);
-        }
     } catch (error) {
         console.error('Error fetching IP:', error);
         ipAddress.textContent = 'Error';
         locationDisplay.textContent = 'Failed to load location';
         asnDisplay.textContent = 'Failed to load network info';
         timestamp.textContent = 'Please try again';
-        shareButton.disabled = true;
+        shareLinkDisplay.style.display = 'none';
     }
 }
 
@@ -108,8 +112,7 @@ async function fetchResult(id) {
         const data = await response.json();
         updateUI(data);
         
-        // Disable share and refresh buttons for shared results
-        shareButton.style.display = 'none';
+        // Hide refresh button for shared results
         refreshButton.style.display = 'none';
     } catch (error) {
         console.error('Error fetching result:', error);
@@ -117,7 +120,7 @@ async function fetchResult(id) {
         locationDisplay.textContent = error.message;
         asnDisplay.textContent = 'Failed to load network info';
         timestamp.textContent = '-';
-        shareButton.style.display = 'none';
+        shareLinkDisplay.style.display = 'none';
     }
 }
 
@@ -139,39 +142,6 @@ async function copyIpToClipboard() {
     }
 }
 
-// Share Functionality
-async function shareResult() {
-    const id = shareButton.getAttribute('data-id');
-    if (!id) return;
-
-    const shareUrl = `${window.location.origin}/result/${id}`;
-    
-    try {
-        if (navigator.share) {
-            await navigator.share({
-                title: 'My IP Information',
-                text: 'Check out my IP information',
-                url: shareUrl
-            });
-        } else {
-            await navigator.clipboard.writeText(shareUrl);
-            shareButton.textContent = 'Copied!';
-            setTimeout(() => {
-                shareButton.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-                        <polyline points="16 6 12 2 8 6"></polyline>
-                        <line x1="12" y1="2" x2="12" y2="15"></line>
-                    </svg>
-                    Share
-                `;
-            }, 2000);
-        }
-    } catch (error) {
-        console.error('Failed to share:', error);
-    }
-}
-
 // Check if we're viewing a shared result
 const path = window.location.pathname;
 const resultMatch = path.match(/^\/result\/([a-zA-Z0-9]+)$/);
@@ -187,7 +157,6 @@ if (resultMatch) {
 themeToggle.addEventListener('click', toggleTheme);
 copyButton.addEventListener('click', copyIpToClipboard);
 refreshButton.addEventListener('click', fetchIpData);
-shareButton.addEventListener('click', shareResult);
 
 // Initialize theme
 initializeTheme();
