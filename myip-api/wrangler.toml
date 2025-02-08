@@ -1,23 +1,11 @@
 name = "myip-api"
 main = "src/index.ts"
 compatibility_date = "2025-02-04"
+account_id = "1fdd58ca5b84dfdedd436b8760a913bd"
+
+[[kv_namespaces]]
+binding = "IP_INFO"
+id = "115da40b572e450ea516b132a640008d"
 
 [observability]
 enabled = true
-
-# Smart Placement
-# placement = { mode = "smart" }
-
-# Environment Variables
-# [vars]
-# MY_VARIABLE = "production_value"
-
-# Static Assets
-# [assets]
-# directory = "./public/"
-# binding = "ASSETS"
-
-# Service Bindings
-# [[services]]
-# binding = "MY_SERVICE"
-# service = "my-service"
