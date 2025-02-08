@@ -2,6 +2,15 @@
 const API_URL = 'https://myip-api.aa2.workers.dev';
 const THEME_KEY = 'preferred-theme';
 
+// Country code to flag emoji conversion
+const getFlagEmoji = (countryCode) => {
+    const codePoints = countryCode
+        .toUpperCase()
+        .split('')
+        .map(char => 127397 + char.charCodeAt());
+    return String.fromCodePoint(...codePoints);
+};
+
 // DOM Elements
 const themeToggle = document.getElementById('theme-toggle');
 const ipAddress = document.getElementById('ip-address');
@@ -53,13 +62,13 @@ async function fetchIpData() {
             ? locationParts.join(', ')
             : 'Location unknown';
 
-        // Update ASN
-        const asnParts = [];
-        if (data.asn) asnParts.push(data.asn);
-        if (data.asOrganization) asnParts.push(data.asOrganization);
-        asnDisplay.textContent = asnParts.length > 0
-            ? asnParts.join(' - ')
-            : 'Network info unavailable';
+        // Update ASN with flag
+        if (data.country && data.asn && data.asOrganization) {
+            const flag = getFlagEmoji(data.country);
+            asnDisplay.textContent = `${flag} ${data.asn} ${data.asOrganization}`;
+        } else {
+            asnDisplay.textContent = 'Network info unavailable';
+        }
 
         // Update timestamp
         const time = new Date(data.timestamp);
