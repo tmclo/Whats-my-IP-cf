@@ -1,6 +1,5 @@
 // Configuration
 const API_URL = 'https://myip-api.aa2.workers.dev';
-const SHARE_DOMAIN = 'https://myip.pinguin.uk';
 const THEME_KEY = 'preferred-theme';
 
 // Country code to flag emoji conversion
@@ -21,8 +20,6 @@ const timestamp = document.getElementById('time');
 const copyButton = document.getElementById('copy-ip');
 const refreshButton = document.getElementById('refresh');
 const shareLink = document.getElementById('share-link');
-const copyShareButton = document.getElementById('copy-share');
-const shareContainer = document.querySelector('.share-container');
 
 // Theme Management
 function initializeTheme() {
@@ -43,7 +40,7 @@ function toggleTheme() {
 }
 
 // Data Display
-function updateUI(data, isResultPage = false) {
+function updateUI(data) {
     // Update IP
     ipAddress.textContent = data.ip;
     
@@ -68,13 +65,13 @@ function updateUI(data, isResultPage = false) {
     timestamp.textContent = `Last updated: ${time.toLocaleString()}`;
 
     // Update share link
-    if (data.id && !isResultPage) {
-        const shareUrl = `${SHARE_DOMAIN}/result/${data.id}`;
+    if (data.id) {
+        const shareUrl = `${window.location.origin}/result/${data.id}`;
         shareLink.href = shareUrl;
         shareLink.textContent = shareUrl;
-        shareContainer.style.display = 'flex';
+        shareLink.style.display = 'block';
     } else {
-        shareContainer.style.display = 'none';
+        shareLink.style.display = 'none';
     }
 }
 
@@ -85,7 +82,7 @@ async function fetchIpData() {
         locationDisplay.textContent = 'Detecting location...';
         asnDisplay.textContent = 'Loading network info...';
         timestamp.textContent = '-';
-        shareContainer.style.display = 'none';
+        shareLink.style.display = 'none';
 
         const response = await fetch(API_URL);
         if (!response.ok) throw new Error('Failed to fetch IP data');
@@ -98,7 +95,7 @@ async function fetchIpData() {
         locationDisplay.textContent = 'Failed to load location';
         asnDisplay.textContent = 'Failed to load network info';
         timestamp.textContent = 'Please try again';
-        shareContainer.style.display = 'none';
+        shareLink.style.display = 'none';
     }
 }
 
@@ -114,21 +111,22 @@ async function fetchResult(id) {
         }
 
         const data = await response.json();
-        updateUI(data, true);
+        updateUI(data);
         
-        // Hide refresh button for shared results
+        // Hide refresh button and share link for shared results
         refreshButton.style.display = 'none';
+        shareLink.style.display = 'none';
     } catch (error) {
         console.error('Error fetching result:', error);
         ipAddress.textContent = 'Error';
         locationDisplay.textContent = error.message;
         asnDisplay.textContent = 'Failed to load network info';
         timestamp.textContent = '-';
-        shareContainer.style.display = 'none';
+        shareLink.style.display = 'none';
     }
 }
 
-// Copy Functions
+// Copy to Clipboard
 async function copyIpToClipboard() {
     const ip = ipAddress.textContent;
     if (ip === 'Loading...' || ip === 'Error') return;
@@ -140,23 +138,6 @@ async function copyIpToClipboard() {
         copyButton.style.color = 'var(--accent)';
         setTimeout(() => {
             copyButton.style.color = 'var(--text-secondary)';
-        }, 1000);
-    } catch (error) {
-        console.error('Failed to copy:', error);
-    }
-}
-
-async function copyShareLinkToClipboard() {
-    const url = shareLink.href;
-    if (!url || shareContainer.style.display === 'none') return;
-
-    try {
-        await navigator.clipboard.writeText(url);
-        
-        // Visual feedback
-        copyShareButton.style.color = 'var(--accent)';
-        setTimeout(() => {
-            copyShareButton.style.color = 'var(--text-secondary)';
         }, 1000);
     } catch (error) {
         console.error('Failed to copy:', error);
@@ -178,7 +159,6 @@ if (resultMatch) {
 themeToggle.addEventListener('click', toggleTheme);
 copyButton.addEventListener('click', copyIpToClipboard);
 refreshButton.addEventListener('click', fetchIpData);
-copyShareButton.addEventListener('click', copyShareLinkToClipboard);
 
 // Initialize theme
 initializeTheme();
