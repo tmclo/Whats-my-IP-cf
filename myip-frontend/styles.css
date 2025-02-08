@@ -135,13 +135,22 @@ main {
     background-color: var(--bg-primary);
 }
 
-.location-info, .network-info {
+.location-info {
     text-align: center;
     color: var(--text-secondary);
+    margin-bottom: 0.5rem;
 }
 
 .network-info {
+    text-align: center;
+    color: var(--text-secondary);
     font-family: monospace;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--bg-secondary);
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
 }
 
 .timestamp {
@@ -193,5 +202,9 @@ main {
 
     .ip-card {
         padding: 0.75rem;
+    }
+
+    .network-info {
+        font-size: 1rem;
     }
 }
