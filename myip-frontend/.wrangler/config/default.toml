@@ -1,2 +1,7 @@
 name = "myip"
+account_id = "1fdd58ca5b84dfdedd436b8760a913bd"
 compatibility_date = "2024-02-08"
+
+[[routes]]
+pattern = "/result/*"
+script = "index.html"

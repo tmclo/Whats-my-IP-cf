@@ -3,9 +3,7 @@
   "include": [
     "/*"
   ],
-  "exclude": [
-    "/assets/*"
-  ],
+  "exclude": [],
   "routes": [
     {
       "src": "^/result/.*$",
@@ -13,11 +11,17 @@
     },
     {
       "src": "^/styles\\.css$",
-      "dest": "/styles.css"
+      "dest": "/styles.css",
+      "headers": {
+        "Content-Type": "text/css"
+      }
     },
     {
       "src": "^/script\\.js$",
-      "dest": "/script.js"
+      "dest": "/script.js",
+      "headers": {
+        "Content-Type": "application/javascript"
+      }
     }
   ]
 }
