@@ -54,7 +54,8 @@ header {
 
 .title-link {
     text-decoration: none;
-    color: var(--text-primary);
+    color: inherit;
+    transition: color 0.2s ease;
 }
 
 .title-link:hover {
